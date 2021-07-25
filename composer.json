@@ -1,0 +1,15 @@
+{
+    "name": "miralexsky/ozon-logistics-api",
+    "description": "Client for interactive with ozon-logistics API",
+    "type": "library",
+    "authors": [
+        {
+            "name": "miralexsky",
+            "email": "miralexsky@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "6.*",
+      "ext-json": "*"
+    }
+}
