@@ -1,15 +1,19 @@
 {
     "name": "miralexsky/ozon-logistics-api",
     "description": "Client for interactive with ozon-logistics API",
+    "keywords": ["ozon", "ozon-logistics"],
+    "license": "MIT",
     "type": "library",
     "authors": [
         {
             "name": "miralexsky",
-            "email": "miralexsky@gmail.com"
+            "email": "miralexsky@gmail.com",
+            "homepage": "https://github.com/MirAlexSky"
         }
     ],
     "require": {
-        "guzzlehttp/guzzle": "6.*",
-      "ext-json": "*"
+        "php": ">=5.6",
+        "guzzlehttp/guzzle": "^6.5.5",
+        "ext-json": "*"
     }
 }
