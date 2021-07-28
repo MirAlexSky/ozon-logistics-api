@@ -105,7 +105,7 @@ class OzonClient
      * @throws OzonClientException
      * @throws GuzzleException
      */
-    public function makeRequest($method, $url, $request = [])
+    public function makeRequest($method, $url, $requestOptions = [])
     {
         if (!$this->client_id || !$this->client_secret) {
             throw new OzonClientException('Client_id or client_secret haven\'t been set');
@@ -115,9 +115,8 @@ class OzonClient
             throw new OzonClientException('Client_token haven\'t been set, you should use authorize() or setToken() method');
         }
 
-        $requestOptions = $request['headers'] = [
+        $requestOptions['headers'] = [
             'Authorization' => "Bearer $this->client_token",
-            'Content-Type'  => 'application/json',
         ];
 
         $request_data = isset($request['body']) ? json_decode($request['body']) :
@@ -126,8 +125,6 @@ class OzonClient
         $ozonResponse = new OzonResponse();
         $ozonResponse->request_data = $request_data;
         $ozonResponse->request = $requestOptions;
-
-        var_dump("$this->uri$url", $requestOptions);
 
         try {
 
