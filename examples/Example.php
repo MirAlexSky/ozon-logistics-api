@@ -3,7 +3,7 @@
 namespace Miralexsky\OzonApi\Examples;
 
 use Miralexsky\OzonApi\OzonClient;
-use Miralexsky\OzonApi\OzonTDO\OzonClientException;
+use Miralexsky\OzonApi\OzonDTO\OzonClientException;
 
 class Example
 {
