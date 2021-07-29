@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Miralexsky\OzonApi\OzonTDO;
+namespace Miralexsky\OzonApi\OzonDTO;
 
 
 class OzonError

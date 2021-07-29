@@ -5,9 +5,10 @@ namespace Miralexsky\OzonApi;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
-use Miralexsky\OzonApi\OzonTDO\OzonClientException;
-use Miralexsky\OzonApi\OzonTDO\OzonError;
-use Miralexsky\OzonApi\OzonTDO\OzonResponse;
+
+use Miralexsky\OzonApi\OzonDTO\OzonResponse;
+use Miralexsky\OzonApi\OzonDTO\OzonClientException;
+use Miralexsky\OzonApi\OzonDTO\OzonError;
 
 class OzonClient
 {

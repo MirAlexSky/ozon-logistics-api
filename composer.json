@@ -1,7 +1,7 @@
 {
     "name": "miralexsky/ozon-logistics-api",
     "description": "Client for interactive with ozon-logistics API",
-    "keywords": ["ozon", "ozon-logistics"],
+    "keywords": ["ozon", "logistics", "delivery", "api"],
     "license": "MIT",
     "type": "library",
     "authors": [
@@ -13,7 +13,17 @@
     ],
     "require": {
         "php": ">=5.6",
-        "guzzlehttp/guzzle": "^6.5.5",
+        "guzzlehttp/guzzle": "^6.5",
         "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Miralexsky\\OzonApi\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Miralexsky\\OzonApi\\Examples\\": "examples"
+        }
     }
 }
