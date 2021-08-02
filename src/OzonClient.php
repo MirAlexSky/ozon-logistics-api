@@ -46,18 +46,28 @@ class OzonClient
         $this->client = new Client();
     }
 
+    /**
+     * Set options for rather requests
+     * @param $options
+     */
     public function setGuzzleOptions($options)
     {
         $this->guzzle_options = $options;
     }
 
+    /**
+     * @return array
+     */
     public function getGuzzleOptions()
     {
         return $this->guzzle_options;
     }
 
     /**
-     * @throws OzonClientException|GuzzleException
+     * Authorize and get token for rather requests
+     * @return mixed
+     * @throws GuzzleException
+     * @throws OzonClientException
      */
     public function authorize()
     {
@@ -103,6 +113,7 @@ class OzonClient
     }
 
     /**
+     *  Make custom request with certain method, uri and options
      * @throws OzonClientException
      * @throws GuzzleException
      */
@@ -186,11 +197,7 @@ class OzonClient
         return $this->getSuccessResponse($ozonResponse);
     }
 
-    /**
-     * @param OzonResponse $ozonResponse
-     * @return OzonResponse
-     */
-    public function getErrorResponse($ozonResponse)
+    private function getErrorResponse($ozonResponse)
     {
         $data = $ozonResponse->response_data;
         $code = isset($data['errorCode']) ? $data['errorCode'] : null;
@@ -208,11 +215,7 @@ class OzonClient
         return $ozonResponse;
     }
 
-    /**
-     * @param ozonResponse $ozonResponse
-     * @return OzonResponse
-     */
-    public function getSuccessResponse($ozonResponse)
+    private function getSuccessResponse($ozonResponse)
     {
         $guzzleResponse = $ozonResponse->guzzleResponse;
         $responseContent = $guzzleResponse->getBody();
@@ -235,6 +238,12 @@ class OzonClient
         return $ozonResponse;
     }
 
+    /**
+     * Get all cities, that have ozon's points
+     * @return OzonResponse
+     * @throws GuzzleException
+     * @throws OzonClientException
+     */
     public function getCities()
     {
         $ozonResponse = $this->makeRequest('GET', 'delivery/cities');
@@ -242,7 +251,27 @@ class OzonClient
         return $ozonResponse;
     }
 
-    public function getVariants($city)
+    /**
+     * Get all variants of delivery (tariffs)
+     * @return OzonResponse
+     * @throws GuzzleException
+     * @throws OzonClientException
+     */
+    public function getVariants()
+    {
+        $ozonResponse = $this->makeRequest('GET', 'delivery/variants');
+
+        return $ozonResponse;
+    }
+
+    /**
+     * Get variants of delivery (tariffs) for exact city
+     * @param $city
+     * @return OzonResponse
+     * @throws GuzzleException
+     * @throws OzonClientException
+     */
+    public function getVariantsByCity($city)
     {
         $query = [
             'cityName' => $city
@@ -255,6 +284,14 @@ class OzonClient
         return $ozonResponse;
     }
 
+    /**
+     * Get variants of delivery (tariffs) by address
+     * @param string $address
+     * @param string $type Type of delivery - pickpoint or courier
+     * @return OzonResponse
+     * @throws GuzzleException
+     * @throws OzonClientException
+     */
     public function getVariantsByAddress($address = 'Ижевск', $type = 'PickPoint')
     {
         $json = json_encode([
@@ -282,6 +319,15 @@ class OzonClient
         return $ozonResponse;
     }
 
+    /**
+     * Calculate price for delivery
+     * @param $fromPlaceId
+     * @param $variant_id
+     * @param $weight
+     * @return OzonResponse
+     * @throws GuzzleException
+     * @throws OzonClientException
+     */
     public function calculate($fromPlaceId, $variant_id, $weight)
     {
         $query = [
@@ -299,6 +345,14 @@ class OzonClient
         return $ozonResponse;
     }
 
+    /**
+     * Get timing for deliveries
+     * @param $fromPlaceId
+     * @param $deliveryVariantId
+     * @return OzonResponse
+     * @throws GuzzleException
+     * @throws OzonClientException
+     */
     public function getTime($fromPlaceId, $deliveryVariantId)
     {
         $json = [
@@ -315,12 +369,25 @@ class OzonClient
         return $ozonResponse;
     }
 
+    /**
+     * Get tariff info
+     * @return OzonResponse
+     * @throws GuzzleException
+     * @throws OzonClientException
+     */
     public function getTariffInfo()
     {
         $ozonResponse = $this->makeRequest('GET', 'tariff/list');
         return $ozonResponse;
     }
 
+    /**
+     * Register sending
+     * @param $order
+     * @return OzonResponse
+     * @throws GuzzleException
+     * @throws OzonClientException
+     */
     public function uploadSending($order)
     {
         $json = json_encode($order);
@@ -332,6 +399,13 @@ class OzonClient
         return $ozonResponse;
     }
 
+    /**
+     * Get ticket for parcel
+     * @param $posting_id
+     * @return OzonResponse
+     * @throws GuzzleException
+     * @throws OzonClientException
+     */
     public function getLabelFile($posting_id)
     {
         $query = [
@@ -345,6 +419,13 @@ class OzonClient
         return $ozonResponse;
     }
 
+    /**
+     * Get info about sending by posting number (track number)
+     * @param $track
+     * @return OzonResponse
+     * @throws GuzzleException
+     * @throws OzonClientException
+     */
     public function getTracking($track)
     {
         $query = [
@@ -358,25 +439,39 @@ class OzonClient
         return $ozonResponse;
     }
 
-    private function disableProduction()
+    /**
+     * Set test url for requests
+     */
+    public function disableProduction()
     {
         $this->uri = static::TEST_URI;
         $this->auth_uri = static::TEST_AUTH_URI;
     }
 
-    private function enableProduction()
+    /**
+     * Set production url for requests
+     */
+    public function enableProduction()
     {
         $this->uri = static::URI;
         $this->auth_uri = static::AUTH_URI;
     }
 
-    private function setCredentials($client_id, $client_secret)
+    /**
+     *  Set auth data
+     * @param $client_id
+     * @param $client_secret
+     */
+    public function setCredentials($client_id, $client_secret)
     {
         $this->client_id = $client_id;
         $this->client_secret = $client_secret;
     }
 
-    private function setCredentialsToTest()
+    /**
+     * Set test auth data
+     */
+    public function setCredentialsToTest()
     {
         $this->client_id = static::ID_TEST;
         $this->client_secret = static::SECRET_TEST;
