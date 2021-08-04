@@ -18,12 +18,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Miralexsky\\OzonApi\\": "src"
+            "Miralexsky\\OzonLogisticsApi\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Miralexsky\\OzonApi\\Examples\\": "examples"
+            "Miralexsky\\OzonLogisticsApi\\Examples\\": "examples"
         }
     }
 }

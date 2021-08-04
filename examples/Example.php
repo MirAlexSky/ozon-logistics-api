@@ -1,9 +1,9 @@
 <?php
 
-namespace Miralexsky\OzonApi\Examples;
+namespace Miralexsky\OzonLogisticsApi\Examples;
 
-use Miralexsky\OzonApi\OzonClient;
-use Miralexsky\OzonApi\OzonDTO\OzonClientException;
+use Miralexsky\OzonLogisticsApi\OzonClient;
+use Miralexsky\OzonLogisticsApi\OzonDTO\OzonClientException;
 
 class Example
 {

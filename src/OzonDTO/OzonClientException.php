@@ -1,6 +1,6 @@
 <?php
 
-namespace Miralexsky\OzonApi\OzonDTO;
+namespace Miralexsky\OzonLogisticsApi\OzonDTO;
 
 class OzonClientException extends \Exception
 {

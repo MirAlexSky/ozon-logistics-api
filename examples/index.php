@@ -2,7 +2,7 @@
 
 require_once '../vendor/autoload.php';
 
-use Miralexsky\OzonApi\Examples\Example;
+use Miralexsky\OzonLogisticsApi\Examples\Example;
 
 $example = new Example();
 $example->getCities();

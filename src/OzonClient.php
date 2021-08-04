@@ -1,14 +1,14 @@
 <?php
 
-namespace Miralexsky\OzonApi;
+namespace Miralexsky\OzonLogisticsApi;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 
-use Miralexsky\OzonApi\OzonDTO\OzonResponse;
-use Miralexsky\OzonApi\OzonDTO\OzonClientException;
-use Miralexsky\OzonApi\OzonDTO\OzonError;
+use Miralexsky\OzonLogisticsApi\OzonDTO\OzonResponse;
+use Miralexsky\OzonLogisticsApi\OzonDTO\OzonClientException;
+use Miralexsky\OzonLogisticsApi\OzonDTO\OzonError;
 
 class OzonClient
 {
