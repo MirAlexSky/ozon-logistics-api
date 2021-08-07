@@ -1,7 +1,7 @@
 {
     "name": "miralexsky/ozon-logistics-api",
     "description": "Client for interactive with ozon-logistics API",
-    "keywords": ["ozon", "logistics", "delivery", "api"],
+    "keywords": ["ozon", "logistics", "delivery", "api", "rocket"],
     "license": "MIT",
     "type": "library",
     "authors": [
