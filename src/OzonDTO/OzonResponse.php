@@ -20,6 +20,8 @@ class OzonResponse
     public $response_content;
     public $response_data;
 
+    public $ozon_order;
+
     public $success = false;
     private $error_message = null;
 

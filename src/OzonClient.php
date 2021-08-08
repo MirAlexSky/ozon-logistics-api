@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 
+use Miralexsky\OzonApi\OzonDTO\OzonOrder;
 use Miralexsky\OzonApi\OzonDTO\OzonResponse;
 use Miralexsky\OzonApi\OzonDTO\OzonClientException;
 use Miralexsky\OzonApi\OzonDTO\OzonError;
@@ -388,7 +389,7 @@ class OzonClient
      * @throws GuzzleException
      * @throws OzonClientException
      */
-    public function uploadSending($order)
+    public function uploadSending(OzonOrder $ozonOrder)
     {
         $json = json_encode($order);
 
