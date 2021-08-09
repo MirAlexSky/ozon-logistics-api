@@ -24,8 +24,9 @@ class OzonClient
 
     private $client;
 
-    private $uri = '';
-    private $auth_uri = '';
+    // You can change it, but you should not!!
+    public $uri = '';
+    public $auth_uri = '';
 
     private $client_id = '';
     private $client_secret = '';
@@ -391,7 +392,7 @@ class OzonClient
      */
     public function uploadSending(OzonOrder $ozonOrder)
     {
-        $json = json_encode($order);
+        $json = json_encode($ozonOrder);
 
         $ozonResponse = $this->makeRequest('POST', 'order', [
             'body' => $json
