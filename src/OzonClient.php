@@ -392,7 +392,7 @@ class OzonClient
      */
     public function uploadSending(OzonOrder $ozonOrder)
     {
-        $json = json_encode($ozonOrder);
+        $json = json_encode($ozonOrder->getOrderForApi());
 
         $ozonResponse = $this->makeRequest('POST', 'order', [
             'body' => $json
