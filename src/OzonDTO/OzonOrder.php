@@ -4,98 +4,116 @@ namespace Miralexsky\OzonApi\OzonDTO;
 
 class OzonOrder
 {
-    public $order_api = [];
+    const PERSON_TYPE_LEGAL = 'LegalPerson';
+    const PERSON_TYPE_NATURAL = 'NaturalPerson';
 
-    public $sendingId;
-    public $buyer;
-    public $recipient;
-    public $fromPlaceId;
-    public $payment;
-    public $deliveryInfo;
-    public $packages;
-    public $orderLines;
+    const PAYMENT_TYPE_PRE = 'FullPrepayment';
+    const PAYMENT_TYPE_POST = 'Postpay';
 
-    public function getOrderForApi()
+    const ADDRESS_TYPE_PVZ = 'Самовывоз';
+
+    const PATTERN_PACKAGE = [
+        'dimensions' => [
+            'weight' => 'required',
+            'length' => 'required',
+            'height' => 'required',
+            'width'  => 'required',
+        ],
+    ];
+
+    const PATTERN_RECIPIENT = [
+        'name'      => 'require',
+        'phone'     => 'require',
+        'email'     => 'require',
+        'type'      => 'require',
+        'legalName' => 'when:type=',
+    ];
+
+    public $order = [
+        'orderNumber' => null,
+
+        'buyer' => [
+            'name'      => null,
+            'phone'     => null,
+            'email'     => null,
+            'type'      => self::PERSON_TYPE_LEGAL,
+            'legalName' => null,
+        ],
+
+        'recipient' => [],
+
+        'payment' => [
+            'type'                   => self::PAYMENT_TYPE_POST,
+            'prepaymentAmount'       => null,
+            'recipientPaymentAmount' => null,
+            'deliveryPrice'          => null,
+            'deliveryVat'            => [
+                'rate' => 0,
+                'sum'  => 0,
+            ],
+        ],
+
+        'deliveryInformation' => [
+            'deliveryVariantId' => null,
+            'address'           => self::ADDRESS_TYPE_PVZ,
+        ],
+
+        'packages' => [],
+
+        'firstMileTransfer' => [
+            'type'        => 'DropOff',
+            'fromPlaceId' => null,
+        ],
+
+        'orderLines'        => [],
+    ];
+
+    public function addProduct($product)
     {
-        $this->order_api['orderNumber'] = $this->sendingId;
+        $this->validate([], $product);
 
-        $this->order_api['buyer'] = $this->getBuyer();
-        $this->order_api['recipient'] = $this->getRecipient();
-
-        $this->order_api['firstMileTransfer'] = [
-            'type' => 'DropOff',
-            'fromPlaceId' => ''
+        $this->order['orderLines'][] = [
+            'lineNumber'       => $product['lineNumber'],
+            'articleNumber'    => $product['articleNumber'],
+            'name'             => $product['name'],
+            'weight'           => $product['weight'],
+            'sellingPrice'     => $product['sellingPrice'],
+            'estimatedPrice'   => $product['estimatedPrice'],
+            'quantity'         => $product['quantity'],
+            'resideInPackages' => $product['resideInPackages'],
         ];
-
-        $this->order_api['payment'] = $this->getPayment();
-        $this->order_api['deliveryInformation'] = $this->getDeliveryInfo();
-        $this->order_api['packages'] = $this->getPackages();
-        $this->order_api['orderLines'] = $this->getOrderLines();
-
-        return $this->order_api;
     }
 
-    public function setOrder(array $order)
+    public function addRecipient($recipient)
     {
-        $this->order = $order;
+        $this->validate(static::PATTERN_RECIPIENT, $recipient);
+
+        $this->order['recipient'] = [
+            'name'      => null,
+            'phone'     => null,
+            'email'     => null,
+            'type'      => self::PERSON_TYPE_NATURAL,
+            'legalName' => null,
+        ];
     }
 
-    private function getBuyer()
+    public function addPackage($package)
     {
-        return $this->buyer;
+        $this->validate(static::PATTERN_PACKAGE, $package);
+
+        $this->order['packages'][] = [
+            'packageNumber' => count($this->order['packages']) + 1,
+            'dimensions'    => [
+                'weight' => $package['weight'],
+                'length' => $package['length'],
+                'height' => $package['height'],
+                'width'  => $package['width'],
+            ],
+        ];
     }
 
-    /**
-     * @return array
-     */
-    private function getRecipient()
+    private function validate($pattern, $data)
     {
-        return $this->recipient;
-    }
-
-    /**
-     * @return array
-     */
-    private function getPayment()
-    {
-        return $this->payment;
-    }
-
-    /**
-     * @return array
-     */
-    private function getDeliveryInfo()
-    {
-        return $this->deliveryInfo;
-    }
-
-    /**
-     * @return array
-     */
-    private function getPackages()
-    {
-        return $this->packages;
-    }
-
-    /**
-     * @return array|null
-     */
-    private function getOrderLines()
-    {
-        foreach ($this->orderLines as $productLine) {
-
-            $orderLinesApi[] = [
-                'lineNumber'       => $productLine->lineNumber,
-                'articleNumber'    => $productLine->articleNumber,
-                'name'             => $productLine->name,
-                'weight'           => $productLine->weight,
-                'sellingPrice'     => $productLine->price,
-                'estimatedPrice'   => $productLine->price,
-                'quantity'         => $productLine->quantity,
-                'resideInPackages' => ["1"],
-            ];
-        }
-
-        return isset($orderLinesApi) ? $orderLinesApi : null;
+        return;
     }
 }
